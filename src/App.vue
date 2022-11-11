@@ -1,5 +1,3 @@
-
-
 <template>
   <div>
     <img @click="getData" src="/vite.svg" class="logo" alt="Vite logo" />
@@ -8,16 +6,18 @@
 </template>
 
 <script setup>
-  import axios from "axios";
+import axios from "axios"
 
-  const baseUr="/api";
-  const getData = ()=>{
-    axios.get(baseUr).then(res=>{
-      console.log(res);
-    }).catch(err=>{
-      console.log(err);
-    })
-  }
+const baseUr = import.meta.env.VITE_BASE_URL
+
+const getData = () => {
+  console.log(baseUr);
+  axios.get(baseUr).then(res => {
+    console.log(res)
+  }).catch(err => {
+    console.log(err)
+  })
+}
 </script>
 <style scoped>
 .logo {
