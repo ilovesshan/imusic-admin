@@ -1,36 +1,61 @@
 <template>
-  <div>
-    <img @click="getData" src="/vite.svg" class="logo" alt="Vite logo" />
-    <p>imusic音乐盒</p>
+  <div class="login-page">
+    <q-card flat bordered>
+      <div class="form">
+        <p class="title">imusic 音乐后台</p>
+        <q-form @submit="login" class="q-gutter-md">
+
+          <q-input filled v-model="userInfo.username" label="用户名" hint="" lazy-rules
+            :rules="[val => val && val.length > 0 || '请输入用户名']" />
+
+          <q-input filled type="password" v-model="userInfo.password" label="密码" lazy-rules
+            :rules="[val => val !== null && val !== '' || '请输入密码',]" />
+
+          <q-toggle v-model="remember" label="记住密码" />
+          <div>
+            <q-btn label="登录" unelevated type="submit" color="primary" class="full-width" />
+          </div>
+        </q-form>
+      </div>
+    </q-card>
   </div>
 </template>
 
 <script setup>
-import axios from "axios"
+import { reactive, ref } from "vue"
+import { useRouter } from "vue-router"
 
-const baseUr = import.meta.env.VITE_BASE_URL
+const router = useRouter()
 
-const getData = () => {
-  console.log(baseUr)
-  axios.get(baseUr).then(res => {
-    console.log(res)
-  }).catch(err => {
-    console.log(err)
-  })
+const remember = ref(false)
+
+const userInfo = reactive({
+  username: "ilovesshan",
+  password: "ilovesshan123456!@#",
+})
+
+const login = () => {
+  router.push("/home")
 }
 </script>
-<style scoped>
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-}
 
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
+<style scoped lang="less">
+.login-page {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
-.logo.vue:hover {
-  filter: drop-shadow(0 0 2em #42b883aa);
+  .form {
+    width: 400px;
+    padding: 15px;
+
+    .title {
+      text-align: center;
+      font-size: 28px;
+      margin-bottom: 40px;
+    }
+  }
 }
 </style>

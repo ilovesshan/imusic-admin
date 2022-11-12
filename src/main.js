@@ -7,13 +7,13 @@ import 'quasar/src/css/index.sass'
 import './style.css'
 import App from './App.vue'
 
-import router from "@/router/index"
+import router from "./router/index"
 
 const app = createApp(App)
 
-app.use(router)
 app.use(Quasar, {
   plugins: {}, // import Quasar plugins and add here
 })
 
+app.use(router)
 app.mount('#app')

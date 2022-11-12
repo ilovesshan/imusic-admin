@@ -5,11 +5,6 @@ import vue from '@vitejs/plugin-vue'
 import { quasar, transformAssetUrls } from '@quasar/vite-plugin'
 
 
-function _resolve (dir) {
-  return path.resolve(__dirname, dir)
-}
-
-  
 // https://vitejs.dev/config/
 export default defineConfig({
   server: {
@@ -32,8 +27,10 @@ export default defineConfig({
     ],
   // 配置项目别名
   resolve: {
+    //设置路径别名
     alias: {
-      '@': _resolve('src'),
+      '@': path.resolve(__dirname, './src'),
+      '*': path.resolve('')
     },
   },
 })
