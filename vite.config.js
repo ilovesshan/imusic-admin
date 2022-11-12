@@ -24,7 +24,7 @@ export default defineConfig({
     quasar({
       sassVariables: 'src/quasar-variables.sass'
     }),
-    ],
+  ],
   // 配置项目别名
   resolve: {
     //设置路径别名
