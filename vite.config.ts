@@ -9,13 +9,18 @@ import { quasar, transformAssetUrls } from '@quasar/vite-plugin'
 export default defineConfig({
   server: {
     // port: 8080,
-    // proxy: {
-    //   '/api': {
-    //     target: 'https://imusic-17670-5-1314961027.sh.run.tcloudbase.com/',
-    //     changeOrigin: true,
-    //     rewrite: (path) => path.replace(/^\/api/,"")
-    //   }
-    // }
+    proxy: {
+      '/dev_api': {
+        target: 'http://127.0.0.1',
+        changeOrigin: true,
+        rewrite: (path: string) => path.replace(/^\/dev_api/, "")
+      },
+      '/pro_api': {
+        target: 'https://imusic-17670-5-1314961027.sh.run.tcloudbase.com/',
+        changeOrigin: true,
+        rewrite: (path: string) => path.replace(/^\/pro_api/, "")
+      }
+    }
   },
   envDir: './env',
   envPrefix: ['VITE_'],
@@ -26,7 +31,7 @@ export default defineConfig({
     quasar({
       sassVariables: 'src/quasar-variables.sass'
     }),
-  ],
+    ],
   // 配置项目别名
   resolve: {
     //设置路径别名
