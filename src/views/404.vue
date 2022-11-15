@@ -9,24 +9,19 @@
       </div>
       <div class="bullshit">
         <div class="bullshit__headline">{{ message }}</div>
-        <div class="bullshit__info">Please check that the URL you entered is correct, or click the button below to
-          return to the homepage.</div>
+        <div class="bullshit__info">{{ subMessage }}</div>
         <a href="/" class="bullshit__return-home">Back to home</a>
       </div>
     </div>
   </div>
 </template>
 
-<script>
+<script lang="ts" setup >
+import { ref } from 'vue';
 
-export default {
-  name: 'Page404',
-  computed: {
-    message () {
-      return 'The webmaster said that you can not enter this page...'
-    }
-  }
-}
+const message = ref<string>("The webmaster said that you can not enter this page...")
+const subMessage = ref<string>("Please check that the URL you entered is correct, or click the button below to return to the homepage.")
+
 </script>
 
 <style lang="scss" scoped>
