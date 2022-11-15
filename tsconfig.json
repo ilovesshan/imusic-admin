@@ -1,0 +1,25 @@
+{
+  "compilerOptions": {
+    "types": [
+      "vite/client",
+      "node",
+      "./env",
+    ],
+    "target": "es2016",
+    "jsx": "preserve",
+    "module": "esnext",
+    "moduleResolution": "node",
+    "baseUrl": "./",
+    "paths": {
+      "@/*": [
+        "src/*"
+      ]
+    },
+    "strict": true,
+    "skipLibCheck": true,
+    "allowSyntheticDefaultImports": true,
+    "include": [
+      "src/**/*.t"
+    ]
+  }
+}

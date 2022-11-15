@@ -5,13 +5,14 @@
   </div>
 </template>
 
-<script setup>
+<script lang="ts" setup >
+import ServiceConfig from "@/config/serverConfig";
 import axios from "axios"
 
-const baseUr = import.meta.env.VITE_BASE_URL
+const baseUr = import.meta.env.MODE === "development" ? ServiceConfig.DEV_BASE_URL : ServiceConfig.PRO_BASE_URL;
 
 const getData = () => {
-  console.log(baseUr)
+  console.log(import.meta.env.MODE + baseUr)
   axios.get(baseUr).then(res => {
     console.log(res)
   }).catch(err => {

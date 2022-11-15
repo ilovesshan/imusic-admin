@@ -1,4 +1,4 @@
-import path from 'path'
+import _path from 'path'
 
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
@@ -17,6 +17,8 @@ export default defineConfig({
     //   }
     // }
   },
+  envDir: './env',
+  envPrefix: ['VITE_'],
   plugins:
     [vue({
       template: transformAssetUrls
@@ -29,8 +31,8 @@ export default defineConfig({
   resolve: {
     //设置路径别名
     alias: {
-      '@': path.resolve(__dirname, './src'),
-      '*': path.resolve('')
+      '@': _path.resolve(__dirname, './src'),
+      '*': _path.resolve('')
     },
   },
 })

@@ -16,17 +16,17 @@
   </q-layout>
 </template>
 
-<script setup>
+<script lang="ts" setup >
 import { ref } from 'vue'
 
-const leftDrawerOpen = ref(false)
-const rightDrawerOpen = ref(false)
+const leftDrawerOpen = ref<boolean>(false)
+const rightDrawerOpen = ref<boolean>(false)
 
-const toggleLeftDrawer = () => {
+const toggleLeftDrawer = (): void => {
   leftDrawerOpen.value = !leftDrawerOpen.value
 }
 
-const toggleRightDrawer = () => {
+const toggleRightDrawer = (): void => {
   rightDrawerOpen.value = !rightDrawerOpen.value
 }
 </script>

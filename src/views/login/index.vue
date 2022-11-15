@@ -21,20 +21,22 @@
   </div>
 </template>
 
-<script setup>
+<script lang="ts" setup >
 import { reactive, ref } from "vue"
 import { useRouter } from "vue-router"
 
+import { IUserInfo } from "./types";
+
+
 const router = useRouter()
 
-const remember = ref(false)
-
-const userInfo = reactive({
+const remember = ref<boolean>(false)
+const userInfo = reactive<IUserInfo>({
   username: "ilovesshan",
   password: "ilovesshan123456!@#",
 })
 
-const login = () => {
+const login = (): void => {
   router.push("/home")
 }
 </script>
