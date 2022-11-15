@@ -1,23 +1,12 @@
 <template>
   <div>
-    <img @click="getData" src="/vite.svg" class="logo" alt="Vite logo" />
+    <img src="/vite.svg" class="logo" alt="Vite logo" />
     <p>imusic音乐盒</p>
   </div>
 </template>
 
 <script lang="ts" setup >
-import request from '@/api/request';
 
-const getData = () => {
-  request({
-    method: "get",
-    url: "/users"
-  }).then(res => {
-    console.log(res)
-  }).catch(err => {
-    console.log(err)
-  })
-}
 </script>
 <style scoped>
 .logo {

@@ -24,11 +24,13 @@
 <script lang="ts" setup >
 import { reactive, ref } from "vue"
 import { useRouter } from "vue-router"
+import { userStore } from "@/store/index";
 
 import { IUserInfo } from "./types";
-
+import { showSuccess } from "@/utils/Notify";
 
 const router = useRouter()
+
 
 const remember = ref<boolean>(false)
 const userInfo = reactive<IUserInfo>({
@@ -37,7 +39,10 @@ const userInfo = reactive<IUserInfo>({
 })
 
 const login = (): void => {
-  router.push("/home")
+  userStore.login(userInfo).then(_ => {
+    showSuccess("登录成功");
+    router.push("/home");
+  });
 }
 </script>
 

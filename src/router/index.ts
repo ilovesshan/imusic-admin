@@ -5,7 +5,7 @@ const routes: RouteRecordRaw[] = [
   {
     path: "/",
     name: "index",
-    redirect: "/login",
+    redirect: "/home",
     meta: {},
     component: () => import("@/views/layout/index.vue"),
     children: [
@@ -23,7 +23,7 @@ const routes: RouteRecordRaw[] = [
     meta: {},
     component: () => import("@/views/login/index.vue"),
   },
-  { path: '/:pathMatch(.*)*', name: 'NotFound', component: () => import("@/views/404.vue") },
+  { path: '/:pathMatch(.*)*', name: 'notFound', component: () => import("@/views/404.vue") },
 ]
 
 const router = createRouter({
