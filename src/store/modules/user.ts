@@ -40,7 +40,7 @@ const userStore = defineStore("userStore", {
             SCache.set("id", id)
             SCache.set("username", username)
             SCache.set("token", token)
-            resolve(0);
+            resolve(1);
           }
         })
       })
@@ -49,6 +49,8 @@ const userStore = defineStore("userStore", {
     // 退出登录
     logout() {
       return new Promise((resolve, reject) => {
+        SCache.clear();
+        resolve(1);
       })
     },
   },
