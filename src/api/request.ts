@@ -6,7 +6,7 @@ import router from "@/router"
 import ServiceConfig from "@/config/serverConfig";
 
 const baseConfig: AxiosRequestConfig = {
-  baseURL: import.meta.env.MODE === "development" ? ServiceConfig.DEV_PROXY_PREFIX : ServiceConfig.PRO_PROXY_PREFIX,
+  baseURL: import.meta.env.MODE === "development" ? ServiceConfig.DEV_BASE_URL : ServiceConfig.PRO_BASE_URL,
   timeout: import.meta.env.MODE === "development" ? ServiceConfig.DEV_TIME_OUT : ServiceConfig.PRO_TIME_OUT,
 }
 
@@ -20,10 +20,12 @@ const instance: AxiosInstance = axios.create(baseConfig)
 
 // 请求拦截器
 instance.interceptors.request.use(config => {
+
   // 开启loading
   Loading.show({ message: `正在加载中,请稍等...` })
+
   // 添加token信息
-  config.headers!["Authorization"] = "";
+  config.headers!["Authorization"] = "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJpbG92ZXNzaGFuIiwiZXhwIjoxNjY4NTY4ODEwfQ.zqPVEODwHEu1Xzhqwp7DoQsdmydoYZJtY-HGZ470unwEH7_8J7XCHCac0iZcCjxqJ-_hYDfraYerdzdxSULYAg";
 
   // 添加时间戳
   config.url += `?t=${new Date().getTime()}`
@@ -39,6 +41,8 @@ instance.interceptors.request.use(config => {
 // 响应拦截器
 instance.interceptors.response.use(response => {
   const { code, message } = response.data
+  // 关闭loading
+  Loading.hide()
   if (code == 200) {
     return response;
   } else {
