@@ -6,14 +6,13 @@
 </template>
 
 <script lang="ts" setup >
-import ServiceConfig from "@/config/serverConfig";
-import axios from "axios"
-
-const baseUr = import.meta.env.MODE === "development" ? ServiceConfig.DEV_BASE_URL : ServiceConfig.PRO_BASE_URL;
+import request from '@/api/request';
 
 const getData = () => {
-  console.log(import.meta.env.MODE + baseUr)
-  axios.get(baseUr).then(res => {
+  request({
+    method: "get",
+    url: "/users"
+  }).then(res => {
     console.log(res)
   }).catch(err => {
     console.log(err)
