@@ -37,10 +37,10 @@ const userStore = defineStore("userStore", {
           const { code, message, data } = res;
           if (code === 200) {
             const { id, username, token } = data;
-            SCache.set("id", id);
+            SCache.set("id", id);  
             SCache.set("username", username);
             SCache.set("token", token);
-            this.$patch({ id, username, token })
+            this.$patch({ id, username, token });
             resolve(1);
           }
         })
