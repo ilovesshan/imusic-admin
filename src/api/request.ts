@@ -5,6 +5,7 @@ import { Loading, Notify } from 'quasar'
 import router from "@/router"
 import ServiceConfig from "@/config/serverConfig";
 import { showError } from "@/utils/Notify";
+import { SCache } from "@/utils/cache";
 
 const baseConfig: AxiosRequestConfig = {
   baseURL: import.meta.env.MODE === "development" ? ServiceConfig.DEV_BASE_URL : ServiceConfig.PRO_BASE_URL,
@@ -26,7 +27,7 @@ instance.interceptors.request.use(config => {
   Loading.show({ message: `正在加载中,请稍等...` })
 
   // 添加token信息
-  config.headers!["Authorization"] = "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJpbG92ZXNzaGFuIiwiZXhwIjoxNjY4NTY4ODEwfQ.zqPVEODwHEu1Xzhqwp7DoQsdmydoYZJtY-HGZ470unwEH7_8J7XCHCac0iZcCjxqJ-_hYDfraYerdzdxSULYAg";
+  config.headers!["Authorization"] = `Bearer ${SCache.get("token")}`
 
   // 添加时间戳
   config.url += `?t=${new Date().getTime()}`
