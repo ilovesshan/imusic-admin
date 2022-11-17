@@ -9,7 +9,7 @@
           <q-avatar>
             <img src="https://cdn.quasar.dev/img/boy-avatar.png">
           </q-avatar>
-          <span @click="logout">{{ userStore.username }}</span>
+          <span @click="logout">{{ username }}</span>
         </q-chip>
       </q-toolbar>
     </q-header>
@@ -21,11 +21,12 @@
 </template>
 
 <script lang="ts" setup >
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 import { userStore } from "@/store/index";
 import { showConfirmDialog } from '@/utils/Dialog';
 
 const leftDrawerOpen = ref<boolean>(false);
+const username = computed(() => userStore.username);
 
 const toggleLeftDrawer = (): void => {
   leftDrawerOpen.value = !leftDrawerOpen.value;
