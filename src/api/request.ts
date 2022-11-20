@@ -1,9 +1,11 @@
 import axios from "axios"
 import type { AxiosInstance, AxiosRequestConfig } from "axios"
-import { Loading } from 'quasar'
+import { Loading, Notify } from 'quasar'
 
 import router from "@/router"
 import ServiceConfig from "@/config/serverConfig";
+import { showError } from "@/utils/Notify";
+import { SCache } from "@/utils/cache";
 
 const baseConfig: AxiosRequestConfig = {
   baseURL: import.meta.env.MODE === "development" ? ServiceConfig.DEV_BASE_URL : ServiceConfig.PRO_BASE_URL,
@@ -25,7 +27,9 @@ instance.interceptors.request.use(config => {
   Loading.show({ message: `正在加载中,请稍等...` })
 
   // 添加token信息
-  config.headers!["Authorization"] = "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJpbG92ZXNzaGFuIiwiZXhwIjoxNjY4NTY4ODEwfQ.zqPVEODwHEu1Xzhqwp7DoQsdmydoYZJtY-HGZ470unwEH7_8J7XCHCac0iZcCjxqJ-_hYDfraYerdzdxSULYAg";
+  if (SCache.get("token")) {
+    config.headers!["Authorization"] = `Bearer ${SCache.get("token")}`
+  }
 
   // 添加时间戳
   config.url += `?t=${new Date().getTime()}`
@@ -46,21 +50,23 @@ instance.interceptors.response.use(response => {
   if (code == 200) {
     return response;
   } else {
-    Loading.show({ message: `${response.data.message}` })
     return response;
   }
 },
   error => {
     console.log(error);
     if (error.response && error.response.status == 401) {
-      // Loading.show({ message: `${error.response.data.message}` })
-      Loading.show({ message: `登录过期了，请重新登录` })
-      // 关闭loading 跳转到登录页假面
       setTimeout(() => { Loading.hide(); router.push("/login"); }, 1000);
+      // if (error.config.url.includes("/login")) {
+      //   Loading.hide();
+      //   showError("用户名或者密码错误");
+      // } else {
+      // 关闭loading 跳转到登录页假面
+      //   setTimeout(() => { Loading.hide(); router.push("/login"); }, 1000);
+      // }
     } else {
       Loading.show({ message: `请求失败,请联系网站管理员...` })
-      // 关闭loading
-      setTimeout(() => Loading.hide(), 1500);
+      setTimeout(() => Loading.hide(), 500);
     }
   });
 
