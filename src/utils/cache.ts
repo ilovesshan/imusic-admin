@@ -10,15 +10,17 @@ class Cache {
     this.storage = type === CacheType.l ? window.localStorage : window.sessionStorage
   }
 
-  set(key: string, value: any) {
+  set(key: string, value: any): void {
     const data = JSON.stringify(value)
     this.storage.setItem(key, data)
   }
 
-  get(key: string) {
+  get(key: string): object | null {
     const value = this.storage.getItem(key)
     if (value) {
       return JSON.parse(value)
+    } else {
+      return null;
     }
   }
 

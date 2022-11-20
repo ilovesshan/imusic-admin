@@ -13,6 +13,15 @@ export function login(userinfo: IUserInfo) {
 }
 
 
+// 根据ID获取用户信息
+export function getUserInfoById(userId: string) {
+  return request({
+    url: `/users/${userId}`,
+    method: "GET",
+  })
+}
+
+
 // 获取用户列表
 export function getUserList(selectConditions: ISelectConditions) {
   return request({

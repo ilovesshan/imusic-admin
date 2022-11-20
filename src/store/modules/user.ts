@@ -2,16 +2,32 @@ import { defineStore } from "pinia"
 
 import type { IUserInfo } from "@/views/login/types";
 
-import { login } from "@/api/user";
+import { getUserInfoById, login } from "@/api/user";
 import { SCache } from "@/utils/cache"
 import { showError } from "@/utils/Notify";
+
+interface IUserDetailState {
+  id: string,
+  username: string,
+  nickname: string,
+  gender: string,
+  roleList: string,
+  locked: boolean,
+  enabled: boolean
+  lastLoginIp: string,
+  lastLoginTime: string,
+  createdTime: string,
+  updatedTime: string,
+}
 
 interface IUserStoreState {
   id: string,
   username: string,
   token: string,
-  roles: Array<string>,
+  userDetail: IUserDetailState,
 }
+
+
 
 interface IUserStoreActions {
   login: (userInfo: IUserInfo) => Promise<any>,
@@ -24,7 +40,7 @@ const userStore = defineStore("userStore", {
       id: SCache.get("id"),
       username: SCache.get("username"),
       token: SCache.get("token"),
-      roles: [],
+      userDetail: SCache.get("userDetail"),
     }
   },
 
@@ -38,11 +54,16 @@ const userStore = defineStore("userStore", {
           const { code, message, data } = res;
           if (code === 200) {
             const { id, username, token } = data;
-            SCache.set("id", id);
-            SCache.set("username", username);
             SCache.set("token", token);
-            this.$patch({ id, username, token });
-            resolve(1);
+
+            // 获取用户信息
+            getUserInfoById(id).then(res => {
+              SCache.set("id", id);
+              SCache.set("username", username);
+              SCache.set("userDetail", res.data);
+              this.$patch({ id, username, token, userDetail: res.data });
+              resolve(1);
+            });
           } else {
             showError(message);
           }
