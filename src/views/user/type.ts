@@ -2,7 +2,7 @@ interface IUserData {
   id: string,
   username: string,
   nickname?: string,
-  gender?: string ,
+  gender?: string,
   roleList: Array<string>,
   locked: boolean,
   enabled: boolean,
@@ -16,6 +16,9 @@ interface IUserData {
 interface ISelectConditions {
   pageSize: number,
   pageNum: number,
+  username?: string,
+  enabled?: boolean | null,
+  gender?: string | null,
 }
 
 export {

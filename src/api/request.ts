@@ -27,7 +27,9 @@ instance.interceptors.request.use(config => {
   Loading.show({ message: `正在加载中,请稍等...` })
 
   // 添加token信息
-  config.headers!["Authorization"] = `Bearer ${SCache.get("token")}`
+  if (SCache.get("token")) {
+    config.headers!["Authorization"] = `Bearer ${SCache.get("token")}`
+  }
 
   // 添加时间戳
   config.url += `?t=${new Date().getTime()}`
@@ -48,22 +50,20 @@ instance.interceptors.response.use(response => {
   if (code == 200) {
     return response;
   } else {
-    Loading.show({ message: `${response.data.message}` })
     return response;
   }
 },
   error => {
     console.log(error);
     if (error.response && error.response.status == 401) {
-      // Loading.show({ message: `${error.response.data.message}` })
-      if (error.config.url.includes("/login")) {
-        Loading.hide();
-        showError("用户名或者密码错误");
-      } else {
-        // 关闭loading 跳转到登录页假面
-        setTimeout(() => { Loading.hide(); router.push("/login"); }, 1000);
-      }
-
+      setTimeout(() => { Loading.hide(); router.push("/login"); }, 1000);
+      // if (error.config.url.includes("/login")) {
+      //   Loading.hide();
+      //   showError("用户名或者密码错误");
+      // } else {
+      // 关闭loading 跳转到登录页假面
+      //   setTimeout(() => { Loading.hide(); router.push("/login"); }, 1000);
+      // }
     } else {
       Loading.show({ message: `请求失败,请联系网站管理员...` })
       setTimeout(() => Loading.hide(), 500);

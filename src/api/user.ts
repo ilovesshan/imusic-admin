@@ -6,7 +6,7 @@ import type { ISelectConditions } from "@/views/user/type";
 // 登录
 export function login(userinfo: IUserInfo) {
   return request({
-    url: "/login",
+    url: "/auth",
     method: "POST",
     data: userinfo,
   })
