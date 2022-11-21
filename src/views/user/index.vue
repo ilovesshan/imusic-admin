@@ -1,17 +1,29 @@
 <template>
   <div class="user-page">
     <div class="row search-bar">
-      <div class="col-3">
+
+      <div class="col-2">
         <q-input filled v-model="selectConditions.username" :dense="false" label="用户名" />
       </div>
       <div class="col-1"></div>
-      <div class="col-3">
+
+
+      <div class="col-2">
+        <q-input filled v-model="selectConditions.nickname" :dense="false" label="昵称" />
+      </div>
+      <div class="col-1"></div>
+
+
+      <div class="col-2">
         <q-select filled v-model="selectConditions.enabled" :options="['启用', '锁定']" label="状态" />
       </div>
       <div class="col-1"></div>
-      <div class="col-3">
+
+
+      <div class="col-2">
         <q-select filled v-model="selectConditions.gender" :options="['男', '女']" label="性别" />
       </div>
+
       <div class="col-2 btns">
         <q-btn outline @click="loadTata" color="primary" icon="search" label="搜索" />
         <q-btn outline @click="reset" color="secondary" icon="restart_alt" label="重置" />
@@ -39,12 +51,32 @@ let selectConditions = reactive<ISelectConditions>({
   pageNum: 1,
   pageSize: 5,
   username: "",
+  nickname: "",
   enabled: null,
   gender: null,
 });
 
 const loadTata = () => {
-  getUserList(selectConditions).then(res => {
+
+  const requestPayload = JSON.parse(JSON.stringify(selectConditions));
+
+  if (selectConditions.username) {
+    requestPayload.username = selectConditions.username;
+  }
+
+  if (selectConditions.nickname) {
+    requestPayload.nickname = selectConditions.nickname;
+  }
+
+  if (selectConditions.enabled) {
+    requestPayload.enabled = selectConditions.enabled === "启用" ? 1 : 0;
+  }
+
+  if (selectConditions.gender) {
+    requestPayload.gender = selectConditions.gender === "男" ? 'MALE' : 'FEMALE';
+  }
+
+  getUserList(requestPayload).then(res => {
     if (res.code == 200) {
       rows.value = res.data.content;
       total.value = res.data.totalPages;
