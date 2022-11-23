@@ -1,5 +1,7 @@
 import router from "./router";
+import { IUserDetailState } from "./store/modules/user";
 import { SCache } from "./utils/cache";
+import { showError } from "./utils/Notify";
 
 
 // 路由拦截
@@ -12,7 +14,14 @@ router.beforeEach((to, from, next) => {
       return;
     }
     // has token
-    next();
+    // 判断是否有权限(根据角色CODE)进入
+    const roleList: Array<string> = (SCache.get("userDetail") as IUserDetailState).roleList.map(role => role.name);
+    if (roleList.length > 0 && roleList.includes("ROLE_ADMIN")) {
+      next();
+    } else {
+      showError("非管理员用户暂时不能登录后台管理系统");
+      next("/login");
+    }
   } else {
     // no token
     if (whileList.includes(to.name as string)) {

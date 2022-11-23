@@ -11,7 +11,7 @@
           <q-input filled type="password" v-model="userInfo.password" label="密码" lazy-rules
             :rules="[val => val !== null && val !== '' || '请输入密码',]" />
 
-          <q-toggle v-model="remember" label="记住密码" />
+          <!-- <q-toggle v-model="remember" label="记住密码" /> -->
           <div>
             <q-btn label="登录" unelevated type="submit" color="primary" class="full-width" />
           </div>
@@ -27,21 +27,27 @@ import { useRouter } from "vue-router"
 import { userStore } from "@/store/index";
 
 import { IUserInfo } from "./types";
-import { showSuccess } from "@/utils/Notify";
+import { showError } from "@/utils/Notify";
+import { SCache } from "@/utils/cache";
+import { IUserDetailState } from "@/store/modules/user";
 
 const router = useRouter()
 
-
-const remember = ref<boolean>(false)
+// const remember = ref<boolean>(false)
 const userInfo = reactive<IUserInfo>({
-  username: "ilovesshan",
-  password: "ilovesshan123456!@#",
+  username: "admin",
+  password: "",
 })
 
 const login = (): void => {
   userStore.login(userInfo).then(_ => {
-    showSuccess("登录成功");
-    router.push("/home");
+    const roleList: Array<string> = (SCache.get("userDetail") as IUserDetailState).roleList.map(role => role.name);
+    if (roleList.length > 0 && roleList.includes("ROLE_ADMIN")) {
+      router.push("/home");
+    } else {
+      showError("非管理员用户暂时不能登录后台管理系统");
+      userStore.logout();
+    }
   });
 }
 </script>

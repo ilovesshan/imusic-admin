@@ -11,7 +11,7 @@ interface IUserDetailState {
   username: string,
   nickname: string,
   gender: string,
-  roleList: string,
+  roleList: Array<any>,
   locked: boolean,
   enabled: boolean
   lastLoginIp: string,
@@ -62,7 +62,7 @@ const userStore = defineStore("userStore", {
               SCache.set("username", username);
               SCache.set("userDetail", res.data);
               this.$patch({ id, username, token, userDetail: res.data });
-              resolve(1);
+              resolve(res);
             });
           } else {
             showError(message);
@@ -81,5 +81,8 @@ const userStore = defineStore("userStore", {
   },
 });
 
+export {
+  IUserDetailState
+}
 
 export default userStore;

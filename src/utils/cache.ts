@@ -15,12 +15,10 @@ class Cache {
     this.storage.setItem(key, data)
   }
 
-  get(key: string): object | null {
+  get(key: string) {
     const value = this.storage.getItem(key)
     if (value) {
       return JSON.parse(value)
-    } else {
-      return null;
     }
   }
 

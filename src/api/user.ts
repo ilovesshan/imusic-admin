@@ -30,3 +30,15 @@ export function getUserList(selectConditions: ISelectConditions) {
     params: selectConditions,
   })
 }
+
+
+// 获取用户列表
+export function insertUser(username: string, password: string) {
+  return request({
+    url: "/register",
+    method: "POST",
+    data: {
+      username, password
+    }
+  })
+}

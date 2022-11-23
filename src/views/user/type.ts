@@ -17,8 +17,9 @@ interface ISelectConditions {
   pageSize: number,
   pageNum: number,
   username?: string,
-  enabled?: boolean | null,
-  gender?: string | null,
+  nickname?: string,
+  enabled?: any,
+  gender?: any,
 }
 
 export {
